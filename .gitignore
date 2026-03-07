@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+
+# Testing and coverage
+.pytest_cache/
+.coverage
+coverage.xml
+coverage.json
+htmlcov/
+slipcover.json
+
+# Tooling output
+.mutmut-cache
+mutmut-results/
+.ruff_cache/
+.mypy_cache/
+tools/**/out/
+*.dot
+*.svg
+
+# CLI
+.orderctl/
+orderctl.log
+*.dot
