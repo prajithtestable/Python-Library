@@ -1,0 +1,53 @@
+# Distribution manifest -- the CSharpWebApi.csproj analogue.
+#
+# This project type IS the packaging metadata, so this file carries far more
+# weight here than in the sibling repositories: classifiers, URLs, extras and
+# the py.typed marker are the deliverable, not incidental configuration.
+
+[build-system]
+# hatchling 1.32.0 is the newest release installable on Python 3.10.
+requires = ["hatchling==1.32.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "orderkit"
+version = "1.0.0"
+description = "Order pricing primitives for retail and wholesale channels"
+readme = "README.md"
+requires-python = ">=3.10,<3.11"
+license = { text = "MIT" }
+keywords = ["orders", "pricing", "retail", "wholesale"]
+authors = [{ name = "Prajith Kumaravel", email = "prajith.k19022003@gmail.com" }]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Typing :: Typed",
+  "Private :: Do Not Upload",
+]
+dependencies = [
+  # -------------------------------------------------------------------
+]
+
+[project.optional-dependencies]
+docs = ["packaging==26.3"]
+
+[project.urls]
+Homepage = "https://example.invalid/orderkit"
+Documentation = "https://example.invalid/orderkit/docs"
+Changelog = "https://example.invalid/orderkit/changelog"
+
+[tool.hatch.build.targets.wheel]
+packages = ["orderkit"]
+# PEP 561: the marker must ship inside the wheel or type checkers ignore the
+# inline annotations entirely. Omitting this is a classic packaging defect.
+[tool.hatch.build.targets.wheel.force-include]
+"orderkit/py.typed" = "orderkit/py.typed"
+
+[tool.hatch.build.targets.sdist]
+include = ["orderkit", "README.md"]
