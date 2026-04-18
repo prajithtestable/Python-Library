@@ -1,0 +1,9 @@
+# PEP 561 marker.
+#
+# Its presence tells type checkers that this distribution ships inline type
+# annotations and that they should be trusted rather than ignored. A library
+# that annotates its code but omits this file gets silently treated as
+# untyped by mypy and pyright, so its absence is a classic packaging defect.
+#
+# The file must be included in the wheel -- see [tool.hatch.build] in
+# src/orderkit/pyproject.toml.
