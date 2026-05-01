@@ -6,7 +6,7 @@ This module is the primary mutation-testing (mutmut) and coverage
 
 from typing import Optional, Protocol
 
-FREE_SHIPPING_THRESHOLD = 75.0
+FREE_SHIPPING_THRESHOLD = 50.0
 TAX_RATE = 0.08
 
 
