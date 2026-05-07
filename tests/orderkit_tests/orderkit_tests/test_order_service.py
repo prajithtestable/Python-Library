@@ -36,7 +36,7 @@ def test_calculate_total_rejects_negative_quantity(service):
 
 @pytest.mark.parametrize(
     ("total", "expected"),
-    [(74.99, False), (75.0, True), (100.0, True), (0.0, False)],
+    [(49.99, False), (50.0, True), (100.0, True), (0.0, False)],
 )
 def test_free_shipping_threshold(service, total, expected):
     assert service.is_eligible_for_free_shipping(total) is expected

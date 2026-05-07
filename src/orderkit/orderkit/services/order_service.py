@@ -8,7 +8,7 @@ from typing import Protocol, Self, assert_never
 
 from orderkit.models.order_record import Channel
 
-FREE_SHIPPING_THRESHOLD = 75.0
+FREE_SHIPPING_THRESHOLD = 50.0
 TAX_RATE = 0.08
 
 
