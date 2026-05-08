@@ -1,0 +1,18 @@
+# Scoped overrides for the analysis fixtures.
+#
+# These files contain intentional style and security defects. This file keeps
+# an ordinary editor / lint pass from flagging them during normal development,
+# while the tool runners under tools/ deliberately scan them with the rules
+# switched back on.
+#
+# Mirrors src/CSharpWebApi/Analysis/.editorconfig in the C# reference repo.
+
+root = false
+
+[*.py]
+indent_style = space
+indent_size = 4
+charset = utf-8
+insert_final_newline = true
+trim_trailing_whitespace = false
+max_line_length = off
