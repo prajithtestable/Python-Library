@@ -8,7 +8,7 @@ from typing import Protocol, Self, assert_never, override
 
 from orderkit.models.order_record import Channel
 
-FREE_SHIPPING_THRESHOLD = 75.0
+FREE_SHIPPING_THRESHOLD = 50.0
 TAX_RATE = 0.08
 
 # PEP 695 type alias statement -- SyntaxError before Python 3.12.
