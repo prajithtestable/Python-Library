@@ -9,7 +9,7 @@ from warnings import deprecated
 
 from orderkit.models.order_record import Channel, OrderRecord
 
-FREE_SHIPPING_THRESHOLD = 75.0
+FREE_SHIPPING_THRESHOLD = 50.0
 TAX_RATE = 0.08
 
 type PricingResult = dict[str, float]
