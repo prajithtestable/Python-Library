@@ -39,3 +39,24 @@ def process_wholesale_order(quantity, unit_price, discount_pct=0.0):
     total = total + tax
     total = total + HANDLING_FEE
     return round(total, 2)
+
+
+def summarize_wholesale_batch(orders):
+    """Aggregate a batch of wholesale order lines."""
+    running_total = 0.0
+    processed = 0
+    skipped = 0
+    for order in orders:
+        try:
+            running_total += process_wholesale_order(
+                order["quantity"], order["unit_price"], order.get("discount_pct", 0.0)
+            )
+            processed += 1
+        except ValueError:
+            skipped += 1
+    return {
+        "channel": "wholesale",
+        "total": round(running_total, 2),
+        "processed": processed,
+        "skipped": skipped,
+    }
