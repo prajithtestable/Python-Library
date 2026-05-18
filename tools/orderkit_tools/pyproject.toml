@@ -1,0 +1,32 @@
+# Tool-integration project -- the CSharpWebApi.Tools.csproj analogue.
+#
+# Depends on BOTH the application and the test project so that it always
+# resolves last, exactly as CSharpWebApi.Tools references CSharpWebApi and
+# CSharpWebApi.Tests.
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "orderkit-tools"
+version = "1.0.0"
+description = "Static analysis and quality tool integration for the orderctl CLI"
+requires-python = ">=3.9,<3.10"
+dependencies = [
+  "orderkit",
+  "orderkit-tests",
+  "build==1.4.4",
+  "twine==6.2.0",
+  "setuptools==82.0.1",
+  "ruff==0.16.2",
+  "complexipy==7.0.1",
+  "pylint==3.3.9",
+  "astroid==3.3.11",
+  "vulture==2.16",
+  "pyan3==1.2.0",
+  "dulwich==0.24.10",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["orderkit_tools"]
