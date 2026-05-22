@@ -1,0 +1,13 @@
+tool: SlipCover
+label: "SlipCover"
+language: python
+python_version: "3.9"
+scenario: "1 - Monolithic"
+module: flat
+project: ../../src/orderkit/pyproject.toml
+tests: ../../tests/orderkit_tests/pyproject.toml
+tools_project: ../orderkit_tools/pyproject.toml
+pinned-version: "1.0.18"
+target_files: [../../src/orderkit/orderkit/services, ../../tests/orderkit_tests]
+command: "python -m slipcover --branch --source src/orderkit/orderkit --xml --out coverage.xml -m pytest tests/orderkit_tests"
+produces: "coverage.xml, coverage.json"
