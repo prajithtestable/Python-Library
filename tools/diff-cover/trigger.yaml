@@ -1,0 +1,13 @@
+tool: diff-cover
+label: "diff-cover"
+language: python
+python_version: "3.10"
+scenario: "1 - Monolithic"
+module: flat
+project: ../../src/orderkit/pyproject.toml
+tests: ../../tests/orderkit_tests/pyproject.toml
+tools_project: ../orderkit_tools/pyproject.toml
+pinned-version: "10.5.0"
+depends_on: "SlipCover (consumes its coverage.xml)"
+target_files: [../../src/orderkit/orderkit/services]
+command: "diff-cover coverage.xml --compare-branch main --fail-under 80"

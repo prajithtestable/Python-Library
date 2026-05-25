@@ -1,0 +1,13 @@
+tool: settrace-driver
+label: "sys.settrace driver (stdlib)"
+language: python
+python_version: "3.10"
+scenario: "1 - Monolithic"
+module: flat
+project: ../../src/orderkit/pyproject.toml
+tests: ../../tests/orderkit_tests/pyproject.toml
+tools_project: ../orderkit_tools/pyproject.toml
+distribution: "Python standard library (no dependency)"
+target_files: [../../src/orderkit/orderkit/services]
+command: "python tools/settrace-driver/run_settrace_driver.py"
+note: "stdlib-only coverage baseline to compare against SlipCover"
