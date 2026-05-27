@@ -1,0 +1,15 @@
+tool: mutmut
+label: "mutmut"
+language: python
+python_version: "3.9"
+scenario: "1 - Monolithic"
+module: flat
+project: ../../src/orderkit/pyproject.toml
+tests: ../../tests/orderkit_tests/pyproject.toml
+tools_project: ../orderkit_tools/pyproject.toml
+pinned-version: "3.3.1"
+config: "../../setup.cfg"
+config_section: "[mutmut]"
+target_files: [../../src/orderkit/orderkit/services]
+command: "mutmut run"
+note: "mutmut 3.x reads source_paths from setup.cfg, not pyproject.toml"
