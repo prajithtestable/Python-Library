@@ -1,0 +1,14 @@
+tool: complexipy
+label: "complexipy"
+language: python
+python_version: "3.9"
+scenario: "1 - Monolithic"
+module: flat
+project: ../../src/orderkit/pyproject.toml
+tests: ../../tests/orderkit_tests/pyproject.toml
+tools_project: ../orderkit_tools/pyproject.toml
+pinned-version: "7.0.1"
+target_files: [../../src/orderkit/orderkit/analysis/complexity_sample.py, ../../src/orderkit/orderkit/services]
+command: "complexipy src/orderkit/orderkit -mx 15 --sort desc"
+metric: "cognitive complexity"
+expects_findings: true
