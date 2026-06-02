@@ -1,0 +1,95 @@
+# Opengrep TAINT MODE rules.
+#
+# These rules exist to answer one question: does taint mode add real
+# interprocedural capability over the pattern rules in ../Opengrep/rules/?
+#
+# The fixture at analysis/taint_fixture.py plants five flows. Four are
+# genuine multi-hop source-to-sink paths. The fifth passes through
+# shlex.quote and is a FALSE-POSITIVE CONTROL -- an engine that reports
+# FLOW 5 is over-reporting.
+#
+# Scoring: 4 true positives available, 1 false positive available.
+
+rules:
+  - id: etl-taint-conf-to-shell
+    mode: taint
+    languages: [python]
+    severity: ERROR
+    message: >-
+      Untrusted DAG run configuration reaches an OS command sink.
+      Covers FLOW 1 and, if the sanitizer is ignored, FLOW 5.
+    metadata:
+      cwe: "CWE-78: OS Command Injection"
+      ground-truth: "FLOW 1 = true positive; FLOW 5 = false positive"
+    pattern-sources:
+      - pattern: $CONF.get(...)
+      - pattern: $CONF["..."]
+    pattern-sanitizers:
+      - pattern: shlex.quote(...)
+    pattern-sinks:
+      - pattern: os.system(...)
+      - patterns:
+          - pattern: subprocess.run(...)
+          - pattern: subprocess.run(..., shell=True, ...)
+      - patterns:
+          - pattern: subprocess.call(...)
+          - pattern: subprocess.call(..., shell=True, ...)
+
+  - id: etl-taint-http-to-sql
+    mode: taint
+    languages: [python]
+    severity: ERROR
+    message: >-
+      Remote HTTP response content reaches a SQL execution sink across
+      several hops. Covers FLOW 2.
+    metadata:
+      cwe: "CWE-89: SQL Injection"
+      ground-truth: "FLOW 2 = true positive"
+    pattern-sources:
+      - pattern: requests.get(...).text
+      - pattern: requests.get(...).content
+      - pattern: requests.post(...).text
+    pattern-sanitizers:
+      - pattern: $CONN.execute($Q, $PARAMS)
+    pattern-sinks:
+      - pattern: $CONN.execute(...)
+      - pattern: $CURSOR.executemany(...)
+
+  - id: etl-taint-env-to-eval
+    mode: taint
+    languages: [python]
+    severity: ERROR
+    message: >-
+      Environment-supplied value reaches a dynamic code sink. Covers FLOW 3.
+    metadata:
+      cwe: "CWE-94: Code Injection"
+      ground-truth: "FLOW 3 = true positive"
+    pattern-sources:
+      - pattern: os.environ.get(...)
+      - pattern: os.environ[...]
+      - pattern: os.getenv(...)
+    pattern-sinks:
+      - pattern: eval(...)
+      - pattern: exec(...)
+      - pattern: compile(...)
+
+  - id: etl-taint-file-to-shell
+    mode: taint
+    languages: [python]
+    severity: ERROR
+    message: >-
+      File contents reach a shell sink through an f-string. Covers FLOW 4.
+    metadata:
+      cwe: "CWE-78: OS Command Injection"
+      ground-truth: "FLOW 4 = true positive"
+    pattern-sources:
+      - pattern: $HANDLE.readline()
+      - pattern: $HANDLE.read()
+      - pattern: $HANDLE.readlines()
+    pattern-sanitizers:
+      - pattern: shlex.quote(...)
+    pattern-sinks:
+      - patterns:
+          - pattern: subprocess.run(...)
+          - pattern: subprocess.run(..., shell=True, ...)
+      - pattern: os.system(...)
