@@ -1,0 +1,33 @@
+# pylint configuration for the evaluated tool run.
+#
+# The everyday settings live in the workspace root pyproject.toml under
+# [tool.pylint]. This file is stricter: it is used when pylint runs AS A TOOL
+# UNDER EVALUATION and must therefore surface the planted violations.
+
+[MAIN]
+py-version = 3.11
+jobs = 0
+suggestion-mode = yes
+
+[MESSAGES CONTROL]
+enable = all
+disable =
+    locally-disabled,
+    suppressed-message,
+    file-ignored
+
+[FORMAT]
+max-line-length = 100
+
+[DESIGN]
+max-args = 6
+max-locals = 15
+max-branches = 12
+max-statements = 50
+
+[SIMILARITIES]
+# Mirrors the symilar thresholds so the two runs are comparable.
+min-similarity-lines = 8
+ignore-comments = yes
+ignore-docstrings = yes
+ignore-imports = no
