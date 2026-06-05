@@ -1,0 +1,16 @@
+# Trivy configuration for the dependency-vulnerability scan.
+
+severity:
+  - LOW
+  - MEDIUM
+  - HIGH
+  - CRITICAL
+
+scan:
+  scanners:
+    - vuln
+    - secret
+
+# The planted pins are the point of the fixture, so a finding must not fail
+# the run. Flip this to 1 if you want the scan to gate.
+exit-code: 0

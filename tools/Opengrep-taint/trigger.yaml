@@ -1,0 +1,16 @@
+tool: Opengrep-taint
+label: "Opengrep (taint mode)"
+language: python
+python_version: "3.10"
+scenario: "1 - Monolithic"
+module: flat
+project: ../../src/orderkit/pyproject.toml
+tests: ../../tests/orderkit_tests/pyproject.toml
+tools_project: ../orderkit_tools/pyproject.toml
+distribution: "standalone binary (not a PyPI package)"
+mode: "taint"
+config: "taint-rules.yaml"
+target_files: [../../src/orderkit/orderkit/analysis/taint_fixture.py]
+command: "opengrep scan --config tools/Opengrep-taint/taint-rules.yaml"
+expects_findings: true
+ground_truth: "4 true flows, 1 sanitized control that must NOT be reported"
