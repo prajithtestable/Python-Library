@@ -1,0 +1,15 @@
+tool: pylint-vulture
+label: "pylint + vulture"
+language: python
+python_version: "3.12"
+scenario: "1 - Monolithic"
+module: flat
+project: ../../src/orderkit/pyproject.toml
+tests: ../../tests/orderkit_tests/pyproject.toml
+tools_project: ../orderkit_tools/pyproject.toml
+pinned-pylint: "4.0.7"
+pinned-vulture: "2.16"
+config: ".pylintrc"
+target_files: [../../src/orderkit/orderkit/analysis/lint_violations.py, ../../src/orderkit/orderkit/analysis/dead_code.py, ../../src/orderkit/orderkit]
+command: "bash tools/pylint-vulture/run_pylint_vulture.sh"
+expects_findings: true

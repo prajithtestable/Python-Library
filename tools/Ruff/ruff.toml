@@ -1,0 +1,30 @@
+# Ruff configuration used when Ruff runs as an evaluated TOOL, as opposed to
+# the everyday lint settings in the workspace root pyproject.toml.
+#
+# The key difference: the root config EXCLUDES the analysis fixtures so normal
+# development stays quiet. This config deliberately INCLUDES them, because the
+# whole point of the tool run is to see whether Ruff detects the planted
+# violations in analysis/lint_violations.py.
+
+target-version = "py312"
+line-length = 100
+force-exclude = false
+
+[lint]
+select = [
+  "E", "F", "W",      # pycodestyle + pyflakes
+  "I",                # isort
+  "N",                # pep8-naming
+  "UP",               # pyupgrade
+  "B",                # flake8-bugbear
+  "S",                # flake8-bandit
+  "C4",               # flake8-comprehensions
+  "SIM",              # flake8-simplify
+  "PL",               # pylint rules ported to Ruff
+  "RUF",
+]
+# The fixtures carry file-level `# ruff: noqa`. external-toplevel-noqa = false
+# would be needed to override that, so the runner passes --ignore-noqa instead.
+
+[lint.per-file-ignores]
+"tests/**" = ["S101"]
