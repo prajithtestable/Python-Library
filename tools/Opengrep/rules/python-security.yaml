@@ -1,0 +1,121 @@
+# Opengrep rules for the planted SAST fixture.
+#
+# Opengrep is a fork of Semgrep and consumes the same rule format. These rules
+# are intentionally explicit rather than pulled from a registry pack, so that
+# the ground truth for this repository is self-contained and auditable.
+#
+# Every rule below targets a weakness deliberately planted in
+# src/orderkit/orderkit/analysis/sast_fixture.py.
+
+rules:
+  - id: etl-sql-injection-concat
+    languages: [python]
+    severity: ERROR
+    message: >-
+      SQL query built by string concatenation with untrusted input.
+      Use parameterised queries instead.
+    metadata:
+      cwe: "CWE-89: Improper Neutralization of Special Elements used in an SQL Command"
+      fixture: sast_fixture.get_order
+    patterns:
+      - pattern-either:
+          - pattern: $CURSOR.execute("..." + $X)
+          - pattern: $CURSOR.execute("..." % $X)
+          - pattern: $CURSOR.execute("...".format(...))
+          - pattern: $CURSOR.execute(f"...{$X}...")
+
+  - id: etl-command-injection
+    languages: [python]
+    severity: ERROR
+    message: >-
+      Shell command constructed from a non-constant value. Pass an argument
+      list and avoid shell=True.
+    metadata:
+      cwe: "CWE-78: Improper Neutralization of Special Elements used in an OS Command"
+      fixture: sast_fixture.export_partition
+    patterns:
+      - pattern-either:
+          - pattern: os.system("..." + $X)
+          - pattern: os.system(f"...{$X}...")
+          - pattern: subprocess.call(..., shell=True, ...)
+          - pattern: subprocess.Popen(..., shell=True, ...)
+          - pattern: subprocess.run(..., shell=True, ...)
+
+  - id: etl-code-injection
+    languages: [python]
+    severity: ERROR
+    message: "eval() or exec() on a non-constant expression allows code injection."
+    metadata:
+      cwe: "CWE-94: Improper Control of Generation of Code"
+      fixture: sast_fixture.evaluate_rule
+    patterns:
+      - pattern-either:
+          - pattern: eval($X)
+          - pattern: exec($X)
+
+  - id: etl-unsafe-deserialization
+    languages: [python]
+    severity: ERROR
+    message: >-
+      Deserialising untrusted data. pickle.loads and yaml.load with a
+      non-safe loader permit arbitrary code execution.
+    metadata:
+      cwe: "CWE-502: Deserialization of Untrusted Data"
+      fixture: sast_fixture.load_state, sast_fixture.load_manifest
+    patterns:
+      - pattern-either:
+          - pattern: pickle.loads(...)
+          - pattern: pickle.load(...)
+          - pattern: yaml.load($X)
+          - pattern: yaml.load($X, Loader=yaml.Loader)
+          - pattern: yaml.load($X, Loader=yaml.UnsafeLoader)
+
+  - id: etl-hardcoded-credentials
+    languages: [python]
+    severity: WARNING
+    message: "Hardcoded credential committed to source control."
+    metadata:
+      cwe: "CWE-798: Use of Hard-coded Credentials"
+      fixture: sast_fixture.ADMIN_PASSWORD, API_TOKEN, DB_CONNECTION
+    patterns:
+      - pattern-either:
+          - pattern: $NAME = "..."
+      - metavariable-regex:
+          metavariable: $NAME
+          regex: "(?i).*(password|passwd|secret|token|api_key|apikey|connection).*"
+
+  - id: etl-weak-hash
+    languages: [python]
+    severity: WARNING
+    message: "MD5 and SHA1 are not collision resistant. Use SHA-256 or better."
+    metadata:
+      cwe: "CWE-327: Use of a Broken or Risky Cryptographic Algorithm"
+      fixture: sast_fixture.checksum
+    patterns:
+      - pattern-either:
+          - pattern: hashlib.md5(...)
+          - pattern: hashlib.sha1(...)
+
+  - id: etl-tls-verification-disabled
+    languages: [python]
+    severity: ERROR
+    message: "TLS certificate verification disabled."
+    metadata:
+      cwe: "CWE-295: Improper Certificate Validation"
+      fixture: sast_fixture.fetch_feed
+    patterns:
+      - pattern: requests.$METHOD(..., verify=False, ...)
+
+  - id: etl-insecure-temp-file
+    languages: [python]
+    severity: WARNING
+    message: >-
+      Predictable temporary file path or tempfile.mktemp. Use
+      tempfile.NamedTemporaryFile or mkstemp.
+    metadata:
+      cwe: "CWE-377: Insecure Temporary File"
+      fixture: sast_fixture.stage_file
+    patterns:
+      - pattern-either:
+          - pattern: tempfile.mktemp(...)
+          - pattern: open("/tmp/...", ...)

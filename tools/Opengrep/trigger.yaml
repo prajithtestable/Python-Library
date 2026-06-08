@@ -1,0 +1,14 @@
+tool: Opengrep
+label: "Opengrep"
+language: python
+python_version: "3.11"
+scenario: "1 - Monolithic"
+module: flat
+project: ../../src/orderkit/pyproject.toml
+tests: ../../tests/orderkit_tests/pyproject.toml
+tools_project: ../orderkit_tools/pyproject.toml
+distribution: "standalone binary (not a PyPI package)"
+config: "rules/python-security.yaml"
+target_files: [../../src/orderkit/orderkit/analysis/sast_fixture.py]
+command: "opengrep scan --config tools/Opengrep/rules/ src/orderkit/orderkit"
+expects_findings: true
