@@ -1,0 +1,14 @@
+tool: symilar
+label: "symilar (pylint)"
+language: python
+python_version: "3.13"
+scenario: "1 - Monolithic"
+module: flat
+project: ../../src/orderkit/pyproject.toml
+tests: ../../tests/orderkit_tests/pyproject.toml
+tools_project: ../orderkit_tools/pyproject.toml
+pinned-version: "4.0.7"
+note: "symilar ships inside pylint"
+target_files: [../../src/orderkit/orderkit/services/retail_order_processor.py, ../../src/orderkit/orderkit/services/wholesale_order_processor.py]
+command: "symilar --duplicates 8 --ignore-comments --ignore-docstrings src/orderkit/orderkit/services/retail_order_processor.py src/orderkit/orderkit/services/wholesale_order_processor.py"
+expects_findings: true
