@@ -1,0 +1,15 @@
+tool: Trivy
+label: "Trivy"
+language: python
+python_version: "3.12"
+scenario: "1 - Monolithic"
+module: flat
+project: ../../src/orderkit/pyproject.toml
+tests: ../../tests/orderkit_tests/pyproject.toml
+tools_project: ../orderkit_tools/pyproject.toml
+distribution: "standalone binary (not a PyPI package)"
+config: "trivy.yaml"
+target_files: [../../src/orderkit/pyproject.toml]
+command: "trivy fs --config tools/Trivy/trivy.yaml ."
+expects_findings: true
+fixture: "tools/Trivy/PLANTED-CVES.md"
