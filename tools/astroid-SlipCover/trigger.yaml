@@ -1,0 +1,15 @@
+tool: astroid-SlipCover
+label: "astroid + SlipCover"
+language: python
+python_version: "3.9"
+scenario: "1 - Monolithic"
+module: flat
+project: ../../src/orderkit/pyproject.toml
+tests: ../../tests/orderkit_tests/pyproject.toml
+tools_project: ../orderkit_tools/pyproject.toml
+pinned-astroid: "3.3.11"
+pinned-slipcover: "1.0.18"
+depends_on: "SlipCover (consumes its coverage.json)"
+target_files: [../../src/orderkit/orderkit/services]
+command: "python tools/astroid-SlipCover/run_astroid_slipcover.py"
+note: "cross-references statically inferred functions against measured coverage"
