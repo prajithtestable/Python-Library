@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# TODO(data-platform): unify CLI output formatting across tool runners.
 """Repository mining with dulwich -- Python 3.9 branch.
 
 dulwich 0.24.10 is pinned on this branch. This is the sharpest dependency split
