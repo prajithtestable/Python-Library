@@ -35,7 +35,7 @@ class BatchPricer:
     def price_batch(
         self,
         records: list[OrderRecord],
-        batch_size: int = 25,
+        batch_size: int = 50,
         fail_fast: bool = False,
     ) -> dict[str, Any]:
         priced: list[dict[str, Any]] = []
