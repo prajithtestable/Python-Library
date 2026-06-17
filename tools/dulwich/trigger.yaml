@@ -1,0 +1,14 @@
+tool: dulwich
+label: "dulwich"
+language: python
+python_version: "3.11"
+scenario: "1 - Monolithic"
+module: flat
+project: ../../src/orderkit/pyproject.toml
+tests: ../../tests/orderkit_tests/pyproject.toml
+tools_project: ../orderkit_tools/pyproject.toml
+pinned-version: "1.2.12"
+target_files: [.]
+command: "python tools/dulwich/run_dulwich.py"
+note: "dulwich 1.2.12 on this branch -- 0.x and 1.x are different major versions with API differences"
+mines: "commit history, churn, author ownership"
