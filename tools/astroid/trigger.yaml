@@ -1,0 +1,13 @@
+tool: astroid
+label: "astroid"
+language: python
+python_version: "3.13"
+scenario: "1 - Monolithic"
+module: flat
+project: ../../src/orderkit/pyproject.toml
+tests: ../../tests/orderkit_tests/pyproject.toml
+tools_project: ../orderkit_tools/pyproject.toml
+pinned-version: "4.3.0"
+target_files: [../../src/orderkit/orderkit/services, ../../src/orderkit/orderkit/analysis/call_graph_sample.py]
+command: "python tools/astroid/run_astroid.py"
+note: "astroid 4.3.0 on this branch; the 3.x and 4.x APIs differ"
