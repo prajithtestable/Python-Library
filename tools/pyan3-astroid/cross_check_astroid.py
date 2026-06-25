@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# TODO(data-platform): unify CLI output formatting across tool runners.
 """astroid cross-check for the pyan3 call graph.
 
 pyan3 builds its graph with its own visitor. This script builds an
