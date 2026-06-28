@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# TODO(data-platform): unify CLI output formatting across tool runners.
 """astroid static inference pass -- Python 3.13 branch.
 
 astroid 4.3.0 is pinned on this branch. The 3.x and 4.x series differ, which

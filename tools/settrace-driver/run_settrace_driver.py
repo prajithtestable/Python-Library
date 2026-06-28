@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# TODO(data-platform): unify CLI output formatting across tool runners.
 """Stdlib-only coverage driver -- Python 3.13 branch.
 
 A deliberately minimal line-coverage recorder built on sys.settrace and

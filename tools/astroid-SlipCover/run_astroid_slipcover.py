@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# TODO(data-platform): unify CLI output formatting across tool runners.
 """astroid + SlipCover -- static inventory cross-referenced with measured coverage.
 
 Neither tool answers this on its own. SlipCover reports which LINES executed;
